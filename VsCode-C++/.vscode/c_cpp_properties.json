@@ -5,13 +5,16 @@
             "intelliSenseMode": "clang-x64",
             "includePath": [
                 "${workspaceFolder}",
+                "C:/LLVM",
                 "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++",
                 "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++/mingw32",
                 "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++/backward",
                 "C:/LLVM/lib/gcc/mingw32/6.3.0/include",
                 "C:/LLVM/include",
                 "C:/LLVM/32/include",
-                "C:/LLVM/lib/gcc/mingw32/6.3.0/include-fixed"
+                "C:/LLVM/lib/gcc/mingw32/6.3.0/include-fixed",
+                "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++/debug",
+                "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++/experimental"
             ],
             "defines": [
                 "_DEBUG",
@@ -22,19 +25,22 @@
             "browse": {
                 "path": [
                     "${workspaceFolder}",
+                    "C:/LLVM",
                     "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++",
                     "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++/mingw32",
                     "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++/backward",
                     "C:/LLVM/lib/gcc/mingw32/6.3.0/include",
                     "C:/LLVM/include",
                     "C:/LLVM/mingw32/include",
-                    "C:/LLVM/lib/gcc/mingw32/6.3.0/include-fixed"
+                    "C:/LLVM/lib/gcc/mingw32/6.3.0/include-fixed",
+                    "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++/debug",
+                    "C:/LLVM/lib/gcc/mingw32/6.3.0/include/c++/experimental"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
             },
             "cStandard": "c11",
-            "cppStandard": "c++17"
+            "cppStandard": "c++11"
         }
     ],
     "version": 4
