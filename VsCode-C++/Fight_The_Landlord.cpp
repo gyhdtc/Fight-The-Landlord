@@ -7,15 +7,15 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <list>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 struct poker{
-    int number = 0; 
-    poker *next = NULL; 
+    int number = 0;
 };
 struct player{
-    poker *card;  
+    vector<poker> card;  
     player *next; 
     int flag = 0; 
     int gold = 0; 
@@ -24,6 +24,10 @@ struct player{
     int player_number; 
     string name;  
 };
+
+bool compare(poker a, poker b){
+    return a.number <= b.number;
+}
 
 class fight_with_ficher{
     private:
@@ -34,16 +38,15 @@ class fight_with_ficher{
         poker pack_of_cards[54];
         player *player_head;
         player gyh[3];
-        map<int, string> poker_numberTo_type;
         string type[15] = { "3", "4", "5", "6", "7", "8", "9",
                             "10", "J", "Q", "K", "A", "2", 
-                            "king1", "king2"}; 
+                            "Small_king", "Big_king"}; 
     public:
         void initcard();
         void initplayer();
         void dealcard(); 
         void compete_landlord();
-        void sendcard();
+        void putcard();
 };
 
 void fight_with_ficher::initcard(){
@@ -51,22 +54,8 @@ void fight_with_ficher::initcard(){
     pack_of_cards[53].number = 14;
     for(int i = 0; i < 4; i++){
         for(int j = 0; j < 13; j++){
-            pack_of_cards[i * 13 + j].number = j;
+            pack_of_cards[i * 13 + j + 1].number = j;
         }
-    }
-
-    for(int i = 0; i < 15; i++){
-        poker_numberTo_type[i] = type[i];
-    }
-    //  输出测试 
-    cout << " 牌堆 " << endl;
-    for(int i = 0; i < 54; i++){
-        cout << pack_of_cards[i].number << " ";
-        if(pack_of_cards[i].next == NULL)
-            cout << "NULL ";
-    }
-    for(int i = 0; i < 15; i++){
-        cout << poker_numberTo_type[i] << " ";
     }
 }
 
@@ -78,7 +67,7 @@ void fight_with_ficher::initplayer(){
         if(i < number_of_human){
             gyh[i].player_number = i + 1;
             gyh[i].flag = 1;
-            cout << "\n玩家姓名：";
+            cout << "玩家姓名：";
             cin >> gyh[i].name;
         }
         else{
@@ -93,10 +82,26 @@ void fight_with_ficher::initplayer(){
     gyh[2].next = &gyh[0];
 }
 
+void fight_with_ficher::dealcard(){
+    random_shuffle(pack_of_cards, pack_of_cards + 54);
+    for(int i = 0; i < 3; i++){
+        gyh[i].card.assign(&pack_of_cards[i*17], &pack_of_cards[i*17+17]);
+        sort(gyh[i].card.begin(), gyh[i].card.end(), compare);
+    }
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 17; j++){
+            cout << type[gyh[i].card[j].number] << " ";
+        }
+        cout << endl;
+    }
+    cout << "地主牌：" << type[pack_of_cards[51].number] << "-" << type[pack_of_cards[52].number] << "-" << type[pack_of_cards[53].number];
+}
+
 int main(){
     cout << "hello world !";
     fight_with_ficher hhh;
     hhh.initcard();
     hhh.initplayer();
+    hhh.dealcard();
     return 0;
 }

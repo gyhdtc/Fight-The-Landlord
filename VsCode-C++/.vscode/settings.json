@@ -4,7 +4,8 @@
         "string": "cpp",
         "iostream": "cpp",
         "map": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "*.tcc": "cpp"
     },
     "code-runner.executorMap": {
         "javascript": "node",
