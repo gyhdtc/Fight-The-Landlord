@@ -2,7 +2,7 @@
 // 
 //  GYH
 //  https://github.com/gyhdtc/Fight-The-Landlord
-//
+//   
 //====================================================
 #include <iostream>
 #include <string>
