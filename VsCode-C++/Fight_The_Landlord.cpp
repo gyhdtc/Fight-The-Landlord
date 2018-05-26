@@ -6,7 +6,6 @@
 //====================================================
 #include <iostream>
 #include <string>
-#include <map>
 #include <list>
 #include <vector>
 #include <algorithm>
@@ -31,6 +30,10 @@ bool compare(poker a, poker b){
     return a.number <= b.number;
 }
 
+bool compare_unique(int a, int b){ return (a == b);}
+//  这里挑战一下自己，做一个vector各种类型接口函数
+//void outvector(vector)
+
 class fight_with_ficher{
     private:
         int number_of_human = 1;
@@ -45,7 +48,9 @@ class fight_with_ficher{
                             "10", "J", "Q", "K", "A", "2", 
                             "Small_king", "Big_king"}; 
         void myrandom(); // 待写
-        void show_information();
+        //void show_information();
+        void show_card(poker *begin, poker *end, string);
+        void show_player_imformation(player, string);
     public:
         fight_with_ficher(){// 倍数还要显示出来，我想倍数改变的时候就要输出一次
             cout << "------------------------------------" << endl;
@@ -62,11 +67,14 @@ class fight_with_ficher{
                 << endl;
             }
             cout << "------------------------------------" << endl;
+            cout << "发牌  ......" << endl;
             dealcard();
             cout << "------------------------------------" << endl;
+            cout << "抢地主 ......" << endl;
             compete_landlord();
             cout << Landlord << " 号玩家 " << gyh[Landlord-1].player_name << " 是地主" << endl;
-
+            show_player_imformation(gyh[0],"");
+            show_card(&pack_of_cards[51], &pack_of_cards[53], "地主牌");
         }
         void initcard();
         void initplayer();
@@ -75,11 +83,69 @@ class fight_with_ficher{
         void putcard();
 };
 
-void fight_with_ficher::show_information(){
-    printf("%10s——%10s——%10s",type[pack_of_cards[51].number],type[pack_of_cards[52].number],type[pack_of_cards[53].number]);
-    printf("%10s——%10s——%10s",gyh[0].player_name,gyh[1].player_name,gyh[2].player_name);
-    printf("%10d——%10d——%10d",gyh[0].card_number,gyh[1].card_number,gyh[2].card_number);
+void fight_with_ficher::show_player_imformation(player t, string es = "0"){
+    // 输出基本信息
+    cout 
+    << t.player_number << "号玩家 " << t.player_name 
+    << " 金币：" << t.gold 
+    << (t.flag==0?" / 电脑 ":" / 玩家 ")
+    << (t.type==0?" / 农名 ":" / 地主 ")
+    << "手牌【 " << t.card_number << " 】" << endl;
+    // 输出基本信息
+
+    if(es != "0"){
+        vector<poker>::iterator it;
+        vector<int> temp;
+        for(int i = 0; i < es.size(); i++){
+            if(es[i] < 58 && es[i] > 47){
+                temp.push_back(es[i] - 48);
+            }
+        }
+        sort(temp.begin(), temp.end());
+        unique(temp.begin(), temp.end(), compare_unique);
+        for(int i = 0; i < temp.size(); i++){
+            switch(temp[i]){
+                case 1:
+                    cout << "\n手牌：";
+                    for(it = t.card.begin(); it != t.card.end(); it++){
+                        cout << type[(*it).number] << " ";
+                    }
+                break;
+                case 2:
+                    cout << "\n上次出牌：";
+                    if(t.last_put_card.size() == 0) cout << "吃不起";
+                    else{
+                        for(it = t.last_put_card.begin(); it != t.last_put_card.end(); it++){
+                            cout << type[(*it).number] << " ";
+                        }
+                    }
+                break;
+                default: break;
+            }
+        }
+    }
+
+    cout << "\n";
 }
+void fight_with_ficher::show_card(poker *begin, poker *end, string s){
+    int flag = 0;
+    for( ; begin != end + 1; begin++){
+        if(flag == 0){
+            flag = 1;
+            cout << s;
+            cout << type[begin -> number];
+        }
+        else{
+            cout << " - " << type[begin -> number];
+        }
+    }
+}
+
+// void fight_with_ficher::show_information(){
+//     printf("%10s——%10s——%10s",type[pack_of_cards[51].number],type[pack_of_cards[52].number],type[pack_of_cards[53].number]);
+//     printf("%10s——%10s——%10s",gyh[0].player_name,gyh[1].player_name,gyh[2].player_name);
+//     printf("%10d——%10d——%10d",gyh[0].card_number,gyh[1].card_number,gyh[2].card_number);
+// }
 
 void fight_with_ficher::initcard(){
     pack_of_cards[0].number  = 13;
@@ -92,7 +158,7 @@ void fight_with_ficher::initcard(){
 }
 
 void fight_with_ficher::initplayer(){
-    cout << "\n玩家数量：";
+    cout << "玩家数量：";
     cin >> number_of_human;
     number_of_ai = 3 - number_of_human;
     for(int i = 0; i < 3; i++){
@@ -125,18 +191,10 @@ void fight_with_ficher::dealcard(){
         gyh[i].card.assign(&pack_of_cards[i*number_of_cards], &pack_of_cards[(i+1)*number_of_cards]);
         sort(gyh[i].card.begin(), gyh[i].card.end(), compare);
     }
-    // for(int i = 0; i < 3; i++){
-    //     for(int j = 0; j < number_of_cards; j++){
-    //         cout << type[gyh[i].card[j].number] << " ";
-    //     }
-    //     cout << endl;
-    // }
-    cout << "地主牌：" << type[pack_of_cards[51].number] << "-" << type[pack_of_cards[52].number] << "-" << type[pack_of_cards[53].number] << endl;
 }
-// 一号抢地主，二号和三号不枪地主，还会循环到一号
-// 抢地主的模式要核实一下
+// 暂时忽略了 三个人都不叫地主的情况
 void fight_with_ficher::compete_landlord(){
-    int i = 0;
+    int number = 0, flag = 0;
     char x;
     player *t;
     if(Landlord == 0) 
@@ -144,21 +202,26 @@ void fight_with_ficher::compete_landlord(){
     else{
         player_head = &gyh[Landlord - 1];
     }
-    t = player_head;
-    do{
-        if(t == player_head)
-            i++;
-        cout << t -> player_number << "号玩家，是否抢地主：y/n";
-        cin >> x;
-        if(x == 'y'){
-            Landlord = t -> player_number;
-            multi *= 2;
+    while(flag != 1){
+        t = player_head;
+        for(int i = 0; i < 3; i ++){
+            cout << t -> player_number << "号玩家，是否抢地主：y/n";
+            cin >> x;
+            if(x == 'y'){
+                Landlord = t -> player_number;
+                multi *= 2;
+                number++;
+                cout << "当前倍数：" << multi << endl;
+            }
+            else{
+                cout << "不抢" << endl;
+            }
+            t = t -> next;
         }
-        else{
-            cout << "不抢" << endl;
-        }
-        t = t -> next;
-    }while(i != 2);
+        if(number == 1) flag = 1;
+        else          number = 0;
+    }
+    player_head = &gyh[Landlord - 1];
     gyh[Landlord-1].type = 1;
     for(int i = 51; i <= 53; i++) gyh[Landlord-1].card.push_back(pack_of_cards[i]);
     sort(gyh[Landlord-1].card.begin(), gyh[Landlord-1].card.end(), compare);
