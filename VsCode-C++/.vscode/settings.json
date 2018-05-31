@@ -7,7 +7,8 @@
         "list": "cpp",
         "*.tcc": "cpp",
         "array": "cpp",
-        "initializer_list": "cpp"
+        "initializer_list": "cpp",
+        "ostream": "cpp"
     },
     "code-runner.executorMap": {
         "javascript": "node",
