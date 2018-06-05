@@ -1,9 +1,3 @@
-//====================================================
-// 
-//  GYH
-//  https://github.com/gyhdtc/Fight-The-Landlord
-//   
-//====================================================
 #include <list>
 #include <cstdlib>
 #include <vector>
@@ -11,7 +5,12 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-
+//====================================================
+// 
+//  GYH
+//  https://github.com/gyhdtc/Fight-The-Landlord
+//   
+//====================================================
 struct poker{
     int number = 0;
 };
@@ -19,10 +18,10 @@ struct player{
     vector<poker> card;  
     vector<poker> last_put_card;
     player *next; 
-    int flag = 0;           // 0 µçÄÔ 1 ÈËÀà
-    int type = 0;           // 0 Å©Ãû 1 µØÖ÷
-    int gold = 0;           // ½ğ±Ò
-    int card_number = 0;    // ÊÖÅÆ
+    int flag = 0;           // 0 ç”µè„‘ 1 äººç±»
+    int type = 0;           // 0 å†œå 1 åœ°ä¸»
+    int gold = 0;           // é‡‘å¸
+    int card_number = 0;    // æ‰‹ç‰Œ
     int player_number; 
     string player_name;  
 };
@@ -49,7 +48,7 @@ class fight_with_ficher{
         string type[15] = { "3", "4", "5", "6", "7", "8", "9",
                             "10", "J", "Q", "K", "A", "2", 
                             "Small_king", "Big_king"}; 
-        void myrandom(); // ´ıĞ´
+        void myrandom(); // å¾…å†™
         void show_card(poker *begin, poker *end, string);
         void show_player_imformation(player, string);
         
@@ -81,12 +80,12 @@ class fight_with_ficher{
 };
 
 void fight_with_ficher::show_player_imformation(player t, string es = "0"){
-    // Êä³ö»ù±¾ĞÅÏ¢
+    // è¾“å‡ºåŸºæœ¬ä¿¡æ¯
     printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-    printf(" %dºÅÍæ¼Ò %10s | ½ğ±Ò£º%4d | %s | %s | ÊÖÅÆ¡¾ %02d ¡¿"
-            , t.player_number, t.player_name.c_str(), t.gold, (t.flag==0?"µçÄÔ":"Íæ¼Ò"), (t.type==0?"Å©Ãû":"µØÖ÷"), t.card_number);
+    printf(" %då·ç©å®¶ %10s | é‡‘å¸ï¼š%4d | %s | %s | æ‰‹ç‰Œã€ %02d ã€‘"
+            , t.player_number, t.player_name.c_str(), t.gold, (t.flag==0?"ç”µè„‘":"ç©å®¶"), (t.type==0?"å†œå":"åœ°ä¸»"), t.card_number);
     printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-    // Êä³ö»ù±¾ĞÅÏ¢
+    // è¾“å‡ºåŸºæœ¬ä¿¡æ¯
     if(es != "0"){
         vector<poker>::iterator it;
         vector<int> temp;
@@ -100,14 +99,14 @@ void fight_with_ficher::show_player_imformation(player t, string es = "0"){
         for(int i = 0; i < temp.size(); i++){
             switch(temp[i]){
                 case 1:
-                    cout << "\nÊÖÅÆ£º";
+                    cout << "\næ‰‹ç‰Œï¼š";
                     for(it = t.card.begin(); it != t.card.end(); it++){
                         cout << type[(*it).number] << " ";
                     }
                 break;
                 case 2:
-                    cout << "\nÉÏ´Î³öÅÆ£º";
-                    if(t.last_put_card.size() == 0) cout << "³Ô²»Æğ";
+                    cout << "\nä¸Šæ¬¡å‡ºç‰Œï¼š";
+                    if(t.last_put_card.size() == 0) cout << "åƒä¸èµ·";
                     else{
                         for(it = t.last_put_card.begin(); it != t.last_put_card.end(); it++){
                             cout << type[(*it).number] << " ";
@@ -139,20 +138,20 @@ void fight_with_ficher::show_card(poker *begin, poker *end, string s){
 
 void fight_with_ficher::start(){
     cout << "------------------------------------" << endl;
-    cout << "ĞÎ³ÉÌ×ÅÆ......" << endl;
+    cout << "å½¢æˆå¥—ç‰Œ......" << endl;
     initcard();
     cout << "------------------------------------" << endl;
-    cout << "Íæ¼ÒÂä×ù......" << endl;
+    cout << "ç©å®¶è½åº§......" << endl;
     initplayer();
     cout << "------------------------------------" << endl;
-    cout << "·¢ÅÆ  ......" << endl;
+    cout << "å‘ç‰Œ  ......" << endl;
     dealcard();
     cout << "------------------------------------" << endl;
-    cout << "ÇÀµØÖ÷ ......" << endl;
+    cout << "æŠ¢åœ°ä¸» ......" << endl;
     compete_landlord();
     cout << "------------------------------------" << endl;
     for(int i = 0;i < 3; i++) show_player_imformation(gyh[i],"");
-    show_card(&pack_of_cards[51], &pack_of_cards[53], "µØÖ÷ÅÆ: ");
+    show_card(&pack_of_cards[51], &pack_of_cards[53], "åœ°ä¸»ç‰Œ: ");
 }
 
 void fight_with_ficher::initcard(){
@@ -166,14 +165,14 @@ void fight_with_ficher::initcard(){
 }
 
 void fight_with_ficher::initplayer(){
-    cout << "Íæ¼ÒÊıÁ¿£º";
+    cout << "ç©å®¶æ•°é‡ï¼š";
     cin >> number_of_human;
     number_of_ai = 3 - number_of_human;
     for(int i = 0; i < 3; i++){
         if(i < number_of_human){
             gyh[i].player_number = i + 1;
             gyh[i].flag = 1;
-            cout << "Íæ¼ÒĞÕÃû£º";
+            cout << "ç©å®¶å§“åï¼š";
             cin >> gyh[i].player_name;
         }
         else{
@@ -187,10 +186,10 @@ void fight_with_ficher::initplayer(){
     gyh[2].next = &gyh[0];
 }
 /*
-    ·¢ÅÆ³ÌĞò
-    º¯Êı¡¾random_shuffle¡¿Ã¿´ÎÔËĞĞ½á¹û¶¼Ò»Ñù
-    ¿ÉÄÜÉæ¼°µ½seedµÄÎÊÌâ
-    Õâ¸öÒ»¶¨Òª¸Ä¸Ä£¬¿ÉÒÔ²Î¿¼ÏÂ ÌìÌì¶·µØÖ÷ µÄ³ÌĞò£¬²»ÖªµÀÄÜ·ñÕÒµ½233
+    å‘ç‰Œç¨‹åº
+    å‡½æ•°ã€random_shuffleã€‘æ¯æ¬¡è¿è¡Œç»“æœéƒ½ä¸€æ ·
+    å¯èƒ½æ¶‰åŠåˆ°seedçš„é—®é¢˜
+    è¿™ä¸ªä¸€å®šè¦æ”¹æ”¹ï¼Œå¯ä»¥å‚è€ƒä¸‹ å¤©å¤©æ–—åœ°ä¸» çš„ç¨‹åºï¼Œä¸çŸ¥é“èƒ½å¦æ‰¾åˆ°233
 */
 void fight_with_ficher::dealcard(){
     random_shuffle(pack_of_cards, pack_of_cards + 54);
@@ -199,7 +198,7 @@ void fight_with_ficher::dealcard(){
         sort(gyh[i].card.begin(), gyh[i].card.end(), compare);
     }
 }
-// ÔİÊ±ºöÂÔÁË Èı¸öÈË¶¼²»½ĞµØÖ÷µÄÇé¿ö
+// æš‚æ—¶å¿½ç•¥äº† ä¸‰ä¸ªäººéƒ½ä¸å«åœ°ä¸»çš„æƒ…å†µ
 void fight_with_ficher::compete_landlord(){
     int number = 0, flag = 0;
     char x;
@@ -212,16 +211,16 @@ void fight_with_ficher::compete_landlord(){
     while(flag != 1){
         t = player_head;
         for(int i = 0; i < 3; i ++){
-            cout << t -> player_number << "ºÅÍæ¼Ò£¬ÊÇ·ñÇÀµØÖ÷£ºy/n";
+            cout << t -> player_number << "å·ç©å®¶ï¼Œæ˜¯å¦æŠ¢åœ°ä¸»ï¼šy/n";
             cin >> x;
             if(x == 'y'){
                 Landlord = t -> player_number;
                 multi *= 2;
                 number++;
-                cout << "µ±Ç°±¶Êı£º" << multi << endl;
+                cout << "å½“å‰å€æ•°ï¼š" << multi << endl;
             }
             else{
-                cout << "²»ÇÀ" << endl;
+                cout << "ä¸æŠ¢" << endl;
             }
             t = t -> next;
         }
@@ -232,7 +231,7 @@ void fight_with_ficher::compete_landlord(){
     gyh[Landlord-1].type = 1;
     for(int i = 51; i <= 53; i++) gyh[Landlord-1].card.push_back(pack_of_cards[i]);
     sort(gyh[Landlord-1].card.begin(), gyh[Landlord-1].card.end(), compare);
-    //  ¸üĞÂÊÖÅÆ
+    //  æ›´æ–°æ‰‹ç‰Œ
     for(int i = 0; i < 3; i++) gyh[i].card_number = gyh[i].card.size();
 }
 
@@ -257,14 +256,14 @@ void fight_with_ficher::loseandwin(int man){
 int main(){
     char q;
     fight_with_ficher game;
-    cout << " ÊäÈë q ¿ªÊ¼ÓÎÏ·£¡" << endl;
+    cout << " è¾“å…¥ q å¼€å§‹æ¸¸æˆï¼" << endl;
     cin >> q;
     while(q == 'q'){
         game.start();
         while( !(game.JudgeWin()) ){
             game.putcard();
         }
-        cout << " ÊäÈë q ¿ªÊ¼ÏÂÒ»¾ÖÓÎÏ·£¡" << endl;
+        cout << " è¾“å…¥ q å¼€å§‹ä¸‹ä¸€å±€æ¸¸æˆï¼" << endl;
         cin >> q;
     }
     return 0;
