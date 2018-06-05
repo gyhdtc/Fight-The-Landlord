@@ -4,10 +4,11 @@
 //  https://github.com/gyhdtc/Fight-The-Landlord
 //   
 //====================================================
-#include <iostream>
-#include <string>
 #include <list>
+#include <cstdlib>
 #include <vector>
+#include <string>
+#include <iostream>
 #include <algorithm>
 using namespace std;
 
@@ -58,10 +59,10 @@ class fight_with_ficher{
             cout << "     ++++++++++                    ++++++++++     " << endl;
             cout << " +++++++++++++++++++          +++++++++++++++++++ " << endl;
             cout << "++++++++++++++++++++++++++++++++++++++++++++++++++" << endl;
-            cout << " ++++++++________________________________++++++++ " << endl;
-            cout << "   ++++++|Thank you for playing my game!|++++++   " << endl;
-            cout << "      +++********************************+++      " << endl;
-            cout << "         ++++++++++++++++++++++++++++++++         " << endl;
+            cout << " +++++++                                  +++++++ " << endl;
+            cout << "   +++++  Thank you for playing my game!  +++++   " << endl;
+            cout << "     ++++                                ++++     " << endl;
+            cout << "        ++++++++++++++++++++++++++++++++++        " << endl;
             cout << "           ++++++++++++++++++++++++++++           " << endl;
             cout << "             ++++++++++++++++++++++++             " << endl;
             cout << "               ++++++++++++++++++++               " << endl;
@@ -76,7 +77,7 @@ class fight_with_ficher{
         void compete_landlord();
         void putcard();
         int  JudgeWin();
-        void loseandwin();
+        void loseandwin(int);
 };
 
 void fight_with_ficher::show_player_imformation(player t, string es = "0"){
@@ -241,13 +242,16 @@ void fight_with_ficher::putcard(){
 
 int fight_with_ficher::JudgeWin(){
     for(int i = 0; i < 3; i++){
-        if(gyh[i].card_number == 0) return i + 1;
+        if(gyh[i].card_number == 0){
+            loseandwin(i + 1);
+            return i + 1;
+        }
     }
     return 0;
 }
 
-void fight_with_ficher::loseandwin(){
-
+void fight_with_ficher::loseandwin(int man){
+    cout << "Winner is :" << man << endl;
 }
 
 int main(){
@@ -257,9 +261,10 @@ int main(){
     cin >> q;
     while(q == 'q'){
         game.start();
-        while(game.JudgeWin()){
+        while( !(game.JudgeWin()) ){
             game.putcard();
         }
+        cout << " 输入 q 开始下一局游戏！" << endl;
         cin >> q;
     }
     return 0;
